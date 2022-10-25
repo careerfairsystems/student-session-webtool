@@ -1,6 +1,5 @@
-import Constants from 'expo-constants';
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
-const backendUrl: string = Constants.manifest?.extra?.backendUrl;
+const backendUrl: string = 'http://localhost/api';
 
 /**
  * Return the full url to a api endpoint

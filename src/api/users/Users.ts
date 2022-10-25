@@ -1,5 +1,3 @@
-import { Linking } from 'react-native';
-import { API } from '../API';
 import { getAuth, putAuth, deleteAuth } from '../http/_HttpHelpers';
 
 export interface User {
@@ -99,15 +97,15 @@ export const removeMe = async (): Promise<boolean> => {
 /**
  * Download user CV
  */
-export const downloadCV = async (userId: number) => {
-  try {
-    const Uri = await API.s3bucket.getFromS3(userId.toString())
-    Linking.canOpenURL(Uri).then((supported) => {
-      return Linking.openURL(Uri);
-    });
-  }
-  catch (error) {
-    console.log(error);
-    alert('No CV found');
-  }
-}
+// export const downloadCV = async (userId: number) => {
+//   try {
+//     const Uri = await API.s3bucket.getFromS3(userId.toString())
+//     Linking.canOpenURL(Uri).then((supported) => {
+//       return Linking.openURL(Uri);
+//     });
+//   }
+//   catch (error) {
+//     console.log(error);
+//     alert('No CV found');
+//   }
+// }

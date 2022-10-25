@@ -1,4 +1,3 @@
-import * as SecureStore from 'expo-secure-store';
 import { Role } from '../users';
 
 /**
@@ -24,12 +23,7 @@ const SECURE_STORE_AUTH_JWT = 'SECURE_STORE_AUTH_JWT';
 const SECURE_STORE_USER_ROLE = 'SECURE_STORE_USER_ROLE';
 
 const getStore = async () => {
-  if (await SecureStore.isAvailableAsync()) {
-    return SecureStore;
-  }
-  else {
-    return LocalStorageAdapter;
-  }
+  return LocalStorageAdapter;
 }
 
 export const setUserRole = async (role: Role): Promise<void> => {
