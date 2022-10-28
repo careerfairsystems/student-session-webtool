@@ -1,6 +1,6 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
 import { Guild } from '../students';
-import { SSTimeslot } from '../studentsessions';
+//import { SSTimeslot } from '../studentsessions';
 import { User } from '../users';
 
 export enum Degree {
@@ -36,7 +36,7 @@ export interface Company extends PublicCompanyDto {
   hostEmail: string | null;
   hostPhone: string | null;
   representatives: User[] | null;
-  ssTimeslots: SSTimeslot[] | null;
+  //ssTimeslots: SSTimeslot[] | null;
 }
 
 export interface UpdateCompanySelfDto {

@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Applications from './pages/Applications';
 import FinalizeSignUpScreen from './pages/Finalize-signup';
 import Home from './pages/Home';
-import ResetPasswordScreen from './pages/reset-password';
+import ResetPasswordScreen from './pages/Reset-password';
 import SignIn from './pages/SignIn';
 
 function App() {
