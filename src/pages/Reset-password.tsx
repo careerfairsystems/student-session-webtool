@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Image, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Box } from '@chakra-ui/react';
 
@@ -6,34 +5,31 @@ import { API } from '../api'
 import { useParams, useNavigate} from "react-router-dom"
 import source from "../assets/images/arkad_logo.png";
 
-export default function FinalizeSignUpScreen() {
+export default function ResetPasswordScreen() {
   const token = decodeURIComponent(useParams().token ?? '');
-
   const [password, setPassword] = useState<string>('');
   const [passwordConfirm, setPasswordConfirm] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  const finalizeSignUp = async () => {
-    if (password != passwordConfirm) {
+  const resetPassword = async () => {
+    if (password.length < 8) {
+      alert('Password is too weak, please choose a stronger one');
+      return;
+    }
+    if (password !== passwordConfirm) {
       alert('Passwords does not match');
       return;
     }
-
-    if (password.length < 8) {
-      alert('Password is weak, choose a stronger one');
-      return;
-    }
-
     setLoading(true);
-    const success = await API.signup.finalizeSignUp({ token, password });
+    const success = await API.auth.resetPassword(token, password);
     setLoading(false);
-
-    if (success) {
-      alert('Account is now created fully. Proceed to the app to sign in');
-      navigate("/")
-    } else {
+    if (!success) {
       alert('Something went wrong, maybe the token expired');
+    }
+    else {
+      alert('Success, the new password is set, go back to the app to log in.');
+      navigate('/');
     }
   }
   const isWeakError = password.length < 8 && password.length > 0;
@@ -63,7 +59,7 @@ export default function FinalizeSignUpScreen() {
           <FormErrorMessage>Passwords has to match</FormErrorMessage>
         )}
         </FormControl>
-        <Button p="7" m="10" bg={"#F66628"} color="white" rounded="full" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
+        <Button p="7" m="10" bg={"#F66628"} color="white" rounded="full" onClick={resetPassword} isLoading={loading}>Reset Password</Button>
       </Flex>
     </Flex>
   )
