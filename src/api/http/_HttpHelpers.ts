@@ -1,5 +1,5 @@
 import { isAuthenticated, getJwt } from '../auth/_AuthState';
-const backendUrl: string = 'http://localhost/api';
+const backendUrl: string = 'https://nexpo.arkadtlth.se/api';
 
 /**
  * Return the full url to a api endpoint
