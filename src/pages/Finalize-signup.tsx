@@ -41,7 +41,7 @@ export default function FinalizeSignUpScreen() {
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
       <Flex bg="whiteAlpha.100" p="1rem" alignItems="center" flexDir="column">
         <Image src={source} alt="Logo" boxSize="230px" />
-        <FormControl isInvalid={isWeakError}>
+        <FormControl isInvalid={isWeakError || noMatchError}>
         <FormLabel>Password</FormLabel>
         <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
         {!isWeakError ? (
@@ -51,7 +51,7 @@ export default function FinalizeSignUpScreen() {
         ) : (
           <FormErrorMessage>passwords has to be strong</FormErrorMessage>
         )}
-        <FormLabel>Confirm password</FormLabel>
+        <FormLabel mt="5">Confirm password</FormLabel>
         <Input type='password' value={passwordConfirm} onChange={(e) => setPasswordConfirm(e.target.value)} />
         {!noMatchError ? (
           <FormHelperText>
@@ -61,7 +61,7 @@ export default function FinalizeSignUpScreen() {
           <FormErrorMessage>Passwords has to match</FormErrorMessage>
         )}
         </FormControl>
-        <Button p="7" m="5" bg={"#F66628"} color="white" rounded="full" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
+        <Button p="7" m="10" bg={"#F66628"} color="white" rounded="full" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
       </Flex>
     </Flex>
   )
