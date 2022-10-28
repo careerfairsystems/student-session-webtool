@@ -5,6 +5,7 @@ import * as Students from './students';
 import * as SSApplications from './sSApplications';
 import * as S3bucket from './s3bucket'
 import * as SignUp from './signup';
+import * as SSs from './studentsessions';
 
 export class API {
   static auth = Auth
@@ -14,4 +15,5 @@ export class API {
   static sSApplications = SSApplications
   static s3bucket = S3bucket
   static signup = SignUp
+  static SSs = SSs
 }
