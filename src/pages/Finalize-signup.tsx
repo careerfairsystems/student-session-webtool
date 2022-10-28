@@ -19,16 +19,13 @@ export default function FinalizeSignUpScreen() {
       alert('Passwords does not match');
       return;
     }
-
     if (password.length < 8) {
       alert('Password is weak, choose a stronger one');
       return;
     }
-
     setLoading(true);
     const success = await API.signup.finalizeSignUp({ token, password });
     setLoading(false);
-
     if (success) {
       alert('Account is now created fully. Proceed to the app to sign in');
       navigate("/")
