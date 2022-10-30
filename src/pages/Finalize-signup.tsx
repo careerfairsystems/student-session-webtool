@@ -28,7 +28,7 @@ export default function FinalizeSignUpScreen() {
     setLoading(false);
     if (success) {
       alert('Account is now created fully. Proceed to the app to sign in');
-      navigate("/")
+      navigate("/done");
     } else {
       alert('Something went wrong, maybe the token expired');
     }

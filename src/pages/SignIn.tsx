@@ -2,6 +2,7 @@ import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormL
 import React, { useState } from 'react';
 
 import { API } from '../api'
+import { Role } from '../api/users';
 import { AuthContext } from '../components/AuthContext';
   
 export default function SignIn() {
@@ -13,9 +14,14 @@ export default function SignIn() {
   const login = async () => {
     setLoading(true);
     const success = await API.auth.login(email.toLowerCase(), password);
+    const role = await API.auth.getUserRole();
     setLoading(false);
-    if (!success) {
+    if (success.status === 400) {
+      alert('wrong email or password');
+    }else if (!success.ok) {
       alert('Login not successful');
+    } else if (role !== Role.CompanyRepresentative) {
+      alert('you need to be a company representative to login');
     }
     else {
       authContext.signIn();
