@@ -1,9 +1,10 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Image } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 import { API } from '../api'
 import { Role } from '../api/users';
 import { AuthContext } from '../components/AuthContext';
+import source from "../assets/images/arkad_logo.png";
   
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -32,7 +33,8 @@ export default function SignIn() {
 
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
-      <Box bg="whiteAlpha.100" p="1rem">
+      <Flex bg="arkadWhite" p="1rem" flexDir="column">
+        <Image src={source} alt="Logo" boxSize="230px" />
         <FormControl isInvalid={isError}>
         <FormLabel>Email</FormLabel>
         <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -53,8 +55,8 @@ export default function SignIn() {
           <FormErrorMessage>Password is required.</FormErrorMessage>
         )}
         </FormControl>
-        <Button onClick={login} isLoading={loading}>Login</Button>
-      </Box>
+        <Button m="2rem" variant="primary" onClick={login} isLoading={loading}>Login</Button>
+      </Flex>
     </Flex>
   )
 }

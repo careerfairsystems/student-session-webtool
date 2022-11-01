@@ -60,7 +60,7 @@ export default function FinalizeSignUpScreen() {
           <FormErrorMessage>Passwords has to match</FormErrorMessage>
         )}
         </FormControl>
-        <Button p="7" m="10" bg={"#F66628"} color="white" rounded="full" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
+        <Button  m="10" variant="primary" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
       </Flex>
     </Flex>
   )

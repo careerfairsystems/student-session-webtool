@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { ButtonStyles as Button } from "./components/buttonStyles";
 
 export const arkadTheme = extendTheme({
   fonts: {
@@ -19,20 +20,6 @@ export const arkadTheme = extendTheme({
     gray: '#333333',
   },
   components: {
-    Button: {
-      baseStyle: {
-        fontWeight: "bold",
-        borderRadius: "0",
-      },
-      variants: {
-        primary: {
-          bg: "arkad.50",
-          color: "white",
-          _hover: {
-            bg: "arkad.100",
-          },
-        },
-      },
-    },
+    Button,
   },
 });
