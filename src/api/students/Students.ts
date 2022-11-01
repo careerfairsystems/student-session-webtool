@@ -1,27 +1,27 @@
 import { getAuth, putAuth } from '../http/_HttpHelpers';
 
 export enum Programme {
-  Brandingenjör,
-  Maskinteknik_Teknisk_Design,
-  Elektroteknik,
-  Ekosystemteknik,
-  Maskinteknik,
-  Nanoveteknik,
-  Bioteknik,
-  Industridesign,
-  Arkitekt,
-  Informations_och_Kommunikationsteknik,
-  Kemiteknik,
-  Byggteknik_med_Järnvägsteknik,
-  Väg_och_vatttenbyggnad,
-  Byggteknik_med_arkitektur,
-  Industriell_ekonomi,
-  Teknisk_Matematik,
-  Medicinteknik,
-  Lantmäteri,
-  Datateknik,
-  Teknisk_Fysik,
-  Byggteknik_med_väg_och_trafikteknik
+  Fire_engineer,
+  Mechanical_engineering_with_technical_design,
+  Electrical_engineering,
+  Ecological_engineering,
+  Mechanical_engineering,
+  Engineering_Nanoscience,
+  Engineering_Biotechnology,
+  Industrial_design,
+  Architecture,
+  Engineering_Information_and_comunication,
+  Chemical_engineering,
+  Construction_and_Railway_construction,
+  Road_and_Water_construction,
+  Construction_and_architecture,
+  Industrial_economics,
+  Engineering_Mathematics,
+  Medical_engineering,
+  Land_surveying,
+  Computer_Software_engineering,
+  Engineering_Physcics,
+  Construction_and_road
 }
 
 export interface Student {

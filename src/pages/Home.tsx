@@ -65,7 +65,7 @@ export default function Home() {
   }
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center" flexDir="column">
-      <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId} />
+      {studentId && <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId} />}
       <Button m="2rem" variant="primary" onClick={() => setShowApplications(!showApplications)}>{showApplications ? "See timeslots" : "See applications"}</Button>
       {showApplications ? 
       <ApplicationList onApplicationClick={onClick} applications={applications}/> : 

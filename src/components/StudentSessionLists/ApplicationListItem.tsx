@@ -9,8 +9,8 @@ export type ApplicationListItemProps = {
 
 export default function ApplicationListItem({application, onApplicationClick}: ApplicationListItemProps) {
   return (
-    <Button w="30vw" variant="card" onClick={onApplicationClick} flexDir="row" flex="1" justifyContent="space-between" m="0.5rem">
-      <Flex p="1rem" flexDir="column" flex="1" flexGrow="1">
+    <Button h="auto" w="25vw" variant="card" onClick={onApplicationClick} flexDir="row" flex="1" justifyContent="space-between" m="0.5rem">
+      <Flex p="0.5rem" flexDir="column" flex="1" flexGrow="1">
         <Text textAlign="left" color="ArkadWhite">{`${application.studentFirstName} ${application.studentLastName}`}</Text>
         {application.studentProgramme && 
         <Text textAlign="left" color="ArkadWhite">{Programme[application.studentProgramme].replaceAll("_" , " ")}</Text>}

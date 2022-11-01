@@ -16,8 +16,8 @@ export const ButtonStyles = {
     },
     card: {
       bg: 'ArkadDarkBlue',
-      rounded: "md",
-      p: "1.7rem",
+      rounded: "lg",
+      p: "1rem",
       _hover: {
         bg: darken('ArkadDarkBlue', 10),
       },

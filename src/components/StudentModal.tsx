@@ -1,14 +1,14 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Image } from "@chakra-ui/react";
+import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spinner, Image, Flex, Text, Box } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { API } from "../api";
 import { SSApplication, UpdateApplicationDto } from "../api/sSApplications";
-import { Student } from "../api/students";
+import { Programme, Student } from "../api/students";
 import { User } from "../api/users";
 
 export type StudentModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  studentId: number | null;
+  studentId: number;
 }
 
 export default function StudentModal({isOpen, onClose, studentId}: StudentModalProps) {
@@ -18,16 +18,14 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
   const [loading, setLoading] = useState<boolean>(false);
 
   async function getAppAndStudent() {
-    if (studentId){
-      setLoading(true);
-      const sdnt = await API.students.getStudent(studentId);
-      const app = await API.sSApplications.getApplicationForStudent(sdnt.id);
-      const user = await API.users.getUser(sdnt.userId);
-      setApplication(app ?? null);
-      setStudent(sdnt);
-      setUser(user);
-      setLoading(false);
-    }
+    setLoading(true);
+    const sdnt = await API.students.getStudent(studentId);
+    const app = await API.sSApplications.getApplicationForStudent(sdnt.id);
+    const user = await API.users.getUser(sdnt.userId);
+    setApplication(app ?? null);
+    setStudent(sdnt);
+    setUser(user);
+    setLoading(false);
   }
   async function accept() {
     setLoading(true);
@@ -47,20 +45,54 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
     await getAppAndStudent();
     setLoading(false);
   }
+  const getCvUrl = async (userId: number) => {
+    try{
+      const Uri = await API.s3bucket.getFromS3(userId.toString(), ".pdf")
+      return <a href={Uri}>Download CV</a>;
+    }catch{
+      return null;
+    }
+  }
 
   useEffect(() => {
     setLoading(true);
     getAppAndStudent();
     setLoading(false);
-  }, [studentId]);
+  }, []);
+  
+  if(!student || !user || !application || loading){
+    return (
+      <Modal isOpen={isOpen} onClose={onClose}>
+    <ModalOverlay />
+    <ModalContent>
+      <ModalHeader>
+      </ModalHeader>
+      <ModalCloseButton />
+      <ModalBody>
+        <Flex p="3rem" justifyContent="center" alignItems="center">
+          <Spinner size="lg" color="arkadDarkBlue"/>
+        </Flex> 
+      </ModalBody>
 
+      <ModalFooter>
+        <Button variant="primary" mr={3} onClick={onClose}>
+          Close
+        </Button>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+
+    )
+  }
 
   return (
   <Modal isOpen={isOpen} onClose={onClose}>
     <ModalOverlay />
     <ModalContent>
       {!student || !user || !application || loading ? <> 
-        <Spinner size="lg" color="arkadDarkBlue"/> 
+        <Flex p="3rem" justifyContent="center" alignItems="center">
+          <Spinner size="lg" color="arkadDarkBlue"/>
+        </Flex> 
         <Button variant="primary" mr={3} onClick={onClose}>
             Close
         </Button> 
@@ -77,7 +109,19 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
       </ModalHeader>
       <ModalCloseButton />
       <ModalBody>
-        hello
+        <Flex justifyContent="space-between" flexDir="column">
+          <Text>email: {user.email}</Text>
+          <Text>phone: {user.phoneNr}</Text>
+          <Text>Program: {student.programme && Programme[student.programme].replaceAll("_", " ")}</Text>
+          <Text>Year: {student.year}</Text>
+          <Text>Master: {student.masterTitle}</Text>
+          {user.hasCv && <Text><>CV: {getCvUrl(user.id)}</></Text>}
+          {student.linkedIn && <Text>LinkedIn <a href={student.linkedIn}>LinkedIn profile</a></Text>}
+          <Box bg="gray.700" flexDir="column" border="0.1rem" borderColor="ArkadDarkBlue" rounded="md">
+            <Text bg="ArkadDarkBlue" color="ArkadWhite">Message from student</Text>
+            <Text>{application.motivation}</Text>
+          </Box>
+        </Flex>
       </ModalBody>
 
       <ModalFooter>
@@ -99,5 +143,3 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
   </Modal>
   )
 }
-
-
