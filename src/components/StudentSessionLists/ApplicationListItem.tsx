@@ -1,4 +1,4 @@
-import { Box, Button, Colors, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Colors, Flex, Text, ListItem } from "@chakra-ui/react";
 import { SSApplicationDto } from "../../api/sSApplications";
 import { Programme } from "../../api/students";
 
@@ -9,7 +9,7 @@ export type ApplicationListItemProps = {
 
 export default function ApplicationListItem({application, onApplicationClick}: ApplicationListItemProps) {
   return (
-    <Button h="auto" w="25vw" variant="card" onClick={onApplicationClick} flexDir="row" flex="1" justifyContent="space-between" m="0.5rem">
+    <Button w="100%" h="6rem" variant="card" onClick={onApplicationClick}>
       <Flex p="0.5rem" flexDir="column" flex="1" flexGrow="1">
         <Text textAlign="left" color="ArkadWhite">{`${application.studentFirstName} ${application.studentLastName}`}</Text>
         {application.studentProgramme && 
@@ -30,6 +30,6 @@ export default function ApplicationListItem({application, onApplicationClick}: A
           {application.status === 2 ? "Rejected" : application.status === 0 ? "Pending" : "Accepted"}
         </Text>
       </Flex>
-  </Button>
+    </Button>
   )
 }

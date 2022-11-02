@@ -1,10 +1,11 @@
-import { Button, Flex, Spinner, useDisclosure } from "@chakra-ui/react";
+import { Button, Flex, SimpleGrid, Spinner, useDisclosure, Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { API } from "../api";
 import { SSApplicationDto } from "../api/sSApplications";
 import { SSTimeslot } from "../api/studentsessions";
 import { AuthContext } from "../components/AuthContext";
+import Navbar from "../components/Navbar";
 import StudentModal from "../components/StudentModal";
 import ApplicationList from "../components/StudentSessionLists/ApplicationList";
 import TimeslotList from "../components/StudentSessionLists/TimeslotList";
@@ -36,12 +37,6 @@ export default function Home() {
     setLoading(false);
   }, []);
 
-  const logout = async () => {
-    setLoading(true);
-    await API.auth.logout();
-    authContext.signOut();
-    setLoading(false);
-  }
   const onClosee = () => {
     getApplications();
     getTimeslots();
@@ -64,14 +59,32 @@ export default function Home() {
     )
   }
   return (
-    <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center" flexDir="column">
-      {studentId && <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId} />}
-      <Button m="2rem" variant="primary" onClick={() => setShowApplications(!showApplications)}>{showApplications ? "See timeslots" : "See applications"}</Button>
-      {showApplications ? 
-      <ApplicationList onApplicationClick={onClick} applications={applications}/> : 
-      <TimeslotList timeslots={timeslots} onTimeslotClick={onClick}/>
-      }
-      <Button m="2rem" variant="primary" onClick={logout}>Sign out</Button>
-    </Flex>
+    <Box>
+      {studentId && <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId}/>}
+      <Navbar />
+      <Flex w="100%" justifyContent="center">
+        <Button display="flex" justifySelf="center" m="2rem" variant="primary" onClick={() => setShowApplications(!showApplications)}>{showApplications ? "See timeslots" : "See applications"}</Button>
+      </Flex>
+      {showApplications ? (
+        <ApplicationList onApplicationClick={onClick} applications={applications}/>
+      ) : (
+        <TimeslotList timeslots={timeslots} onTimeslotClick={onClick}/>
+      )}
+          
+          {/* {studentId && <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId} />}
+          <Button m="2rem" variant="primary" onClick={() => setShowApplications(!showApplications)}>{showApplications ? "See timeslots" : "See applications"}</Button>
+          {showApplications ? 
+          <ApplicationList onApplicationClick={onClick} applications={applications}/> : 
+          <TimeslotList timeslots={timeslots} onTimeslotClick={onClick}/>
+          }
+          <Button m="2rem" variant="primary" onClick={logout}>Sign out</Button>
+          {studentId && <StudentModal isOpen={isOpen} onClose={onClosee} studentId={studentId} />}
+          <Button m="2rem" variant="primary" onClick={() => setShowApplications(!showApplications)}>{showApplications ? "See timeslots" : "See applications"}</Button>
+          {showApplications ? 
+          <ApplicationList onApplicationClick={onClick} applications={applications}/> : 
+          <TimeslotList timeslots={timeslots} onTimeslotClick={onClick}/>
+          }
+          <Button m="2rem" variant="primary" onClick={logout}>Sign out</Button> */}
+    </Box>
   )
 }

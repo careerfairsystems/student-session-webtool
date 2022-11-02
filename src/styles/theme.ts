@@ -17,7 +17,7 @@ export const arkadTheme = extendTheme({
     lightRed: '#CB0000',
     ArkadWhite: '#ffffff',
     black: '#000000',
-    gray: '#333333',
+    ArkadGray: '#333333',
   },
   components: {
     Button,

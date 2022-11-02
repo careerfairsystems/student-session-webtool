@@ -4,7 +4,6 @@ import { Image, Button, Flex, FormControl, FormErrorMessage, FormHelperText, For
 
 import { API } from '../api'
 import { useParams, useNavigate} from "react-router-dom"
-import source from "../assets/images/arkad_logo.png";
 
 export default function FinalizeSignUpScreen() {
   const token = decodeURIComponent(useParams().token ?? '');
@@ -39,7 +38,7 @@ export default function FinalizeSignUpScreen() {
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
       <Flex bg="whiteAlpha.100" p="1rem" alignItems="center" flexDir="column">
-        <Image src={source} alt="Logo" boxSize="230px" />
+        <Image src="/images/arkad_logo.png" alt="Logo" boxSize="230px" />
         <FormControl isInvalid={isWeakError || noMatchError}>
         <FormLabel>Password</FormLabel>
         <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />

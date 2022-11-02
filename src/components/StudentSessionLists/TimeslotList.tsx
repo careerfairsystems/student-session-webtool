@@ -1,4 +1,4 @@
-import { OrderedList, ListItem } from "@chakra-ui/react";
+import { VStack, ListItem } from "@chakra-ui/react";
 import { SSTimeslot } from "../../api/studentsessions";
 import TimeslotListItem from "./TimeslotListItem";
 
@@ -8,14 +8,17 @@ export type TimeslotListProps = {
 }
 
 export default function TimeslotList({timeslots, onTimeslotClick}: TimeslotListProps) {
+  timeslots?.sort((a,b) => 
+    new Date(a.start).getTime() - new Date(b.start).getTime()
+  );
   return (
-    <OrderedList w="80vw" alignItems="center">
+    <VStack>
       {timeslots?.map((timeslot) => 
         <TimeslotListItem
           key={timeslot.id}
           timeslot={timeslot}
           onTimeslotClick={() => onTimeslotClick(timeslot.studentId)}/>
       )}
-    </OrderedList>
+    </VStack>
   )
 }

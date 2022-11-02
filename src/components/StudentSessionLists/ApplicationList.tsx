@@ -1,4 +1,4 @@
-import { OrderedList, ListItem, Flex, Heading, Box } from "@chakra-ui/react";
+import { OrderedList, ListItem, VStack, Heading, Box, SimpleGrid, UnorderedList } from "@chakra-ui/react";
 import { SSApplicationDto } from "../../api/sSApplications";
 import ApplicationListItem from "./ApplicationListItem";
 
@@ -8,41 +8,36 @@ export type ApplicationListProps = {
 }
 
 export default function ApplicationList({applications, onApplicationClick}: ApplicationListProps) {
+  applications?.sort((a, b) => a.studentFirstName.localeCompare(b.studentFirstName))
   return (
-    <Flex flexDir="row">
-      <Flex flexDir="column" w="30vw">
+    <SimpleGrid columns={{base: 1, lg: 3}} spacing="1rem" mx="1rem">
+      <VStack justifyContent="center">
         <Heading color="arkadDarkBlue" m="2rem">Pending</Heading>
-        <OrderedList flexDir="column">
-          {applications?.filter((appli) => appli.status === 0).map((application) => (
-            <ApplicationListItem 
-              key={application.id} 
-              application={application}
-              onApplicationClick={() => onApplicationClick(application.studentId)}/>
-          ))}
-        </OrderedList>
-      </Flex>
-      <Flex flexDir="column" w="30vw">
-        <Heading color="arkadDarkBlue" m="2rem" >Accepted</Heading>
-        <OrderedList flexDir="column">
-          {applications?.filter((appli) => appli.status === 1).map((application) => (
-            <ApplicationListItem 
+        {applications?.filter((appli) => appli.status === 0).map((application) => (
+          <ApplicationListItem 
             key={application.id} 
             application={application}
             onApplicationClick={() => onApplicationClick(application.studentId)}/>
-          ))}
-        </OrderedList>
-      </Flex>
-      <Flex flexDir="column" w="30vw">
+        ))}
+      </VStack>
+      <VStack>
+        <Heading color="arkadDarkBlue" m="2rem">Accepted</Heading>
+        {applications?.filter((appli) => appli.status === 1).map((application) => (
+          <ApplicationListItem 
+          key={application.id} 
+          application={application}
+          onApplicationClick={() => onApplicationClick(application.studentId)}/>
+        ))}
+      </VStack>
+      <VStack>
         <Heading color="arkadDarkBlue" m="2rem">Rejected</Heading>
-        <OrderedList flexDir="column">
         {applications?.filter((appli) => appli.status === 2).map((application) => (
           <ApplicationListItem 
           key={application.id} 
           application={application}
           onApplicationClick={() => onApplicationClick(application.studentId)}/>
         ))}
-        </OrderedList>
-      </Flex>
-  </Flex>
+      </VStack>
+    </SimpleGrid>
   )
 }

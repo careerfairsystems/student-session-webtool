@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import { API } from '../api'
 import { Role } from '../api/users';
 import { AuthContext } from '../components/AuthContext';
-import source from "../assets/images/arkad_logo.png";
   
 export default function SignIn() {
   const [email, setEmail] = useState<string>('');
@@ -34,7 +33,7 @@ export default function SignIn() {
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
       <Flex bg="arkadWhite" p="1rem" flexDir="column">
-        <Image src={source} alt="Logo" boxSize="230px" />
+        <Image src="/images/arkad_logo.png" alt="Logo" boxSize="230px" />
         <FormControl isInvalid={isError}>
         <FormLabel>Email</FormLabel>
         <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
