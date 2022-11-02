@@ -1,7 +1,8 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormErrorMessage, FormHelperText, FormLabel, Input, Image } from '@chakra-ui/react';
 import React, { useState } from 'react';
 
 import { API } from '../api'
+import { Role } from '../api/users';
 import { AuthContext } from '../components/AuthContext';
   
 export default function SignIn() {
@@ -13,9 +14,14 @@ export default function SignIn() {
   const login = async () => {
     setLoading(true);
     const success = await API.auth.login(email.toLowerCase(), password);
+    const role = await API.auth.getUserRole();
     setLoading(false);
-    if (!success) {
+    if (success.status === 400) {
+      alert('wrong email or password');
+    }else if (!success.ok) {
       alert('Login not successful');
+    } else if (role !== Role.CompanyRepresentative) {
+      alert('you need to be a company representative to login');
     }
     else {
       authContext.signIn();
@@ -26,7 +32,8 @@ export default function SignIn() {
 
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
-      <Box bg="whiteAlpha.100" p="1rem">
+      <Flex bg="arkadWhite" p="1rem" flexDir="column">
+        <Image src="/images/arkad_logo.png" alt="Logo" boxSize="230px" />
         <FormControl isInvalid={isError}>
         <FormLabel>Email</FormLabel>
         <Input type='email' value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -47,8 +54,8 @@ export default function SignIn() {
           <FormErrorMessage>Password is required.</FormErrorMessage>
         )}
         </FormControl>
-        <Button onClick={login} isLoading={loading}>Login</Button>
-      </Box>
+        <Button m="2rem" variant="primary" onClick={login} isLoading={loading}>Login</Button>
+      </Flex>
     </Flex>
   )
 }

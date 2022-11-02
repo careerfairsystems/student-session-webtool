@@ -4,7 +4,6 @@ import { Image, Button, Flex, FormControl, FormErrorMessage, FormHelperText, For
 
 import { API } from '../api'
 import { useParams, useNavigate} from "react-router-dom"
-import source from "../assets/images/arkad_logo.png";
 
 export default function FinalizeSignUpScreen() {
   const token = decodeURIComponent(useParams().token ?? '');
@@ -28,7 +27,7 @@ export default function FinalizeSignUpScreen() {
     setLoading(false);
     if (success) {
       alert('Account is now created fully. Proceed to the app to sign in');
-      navigate("/")
+      navigate("/done");
     } else {
       alert('Something went wrong, maybe the token expired');
     }
@@ -39,7 +38,7 @@ export default function FinalizeSignUpScreen() {
   return (
     <Flex h="100vh" w="100vw" justifyContent="center" alignItems="center">
       <Flex bg="whiteAlpha.100" p="1rem" alignItems="center" flexDir="column">
-        <Image src={source} alt="Logo" boxSize="230px" />
+        <Image src="/images/arkad_logo.png" alt="Logo" boxSize="230px" />
         <FormControl isInvalid={isWeakError || noMatchError}>
         <FormLabel>Password</FormLabel>
         <Input type='password' value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -60,7 +59,7 @@ export default function FinalizeSignUpScreen() {
           <FormErrorMessage>Passwords has to match</FormErrorMessage>
         )}
         </FormControl>
-        <Button p="7" m="10" bg={"#F66628"} color="white" rounded="full" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
+        <Button  m="10" variant="primary" onClick={finalizeSignUp} isLoading={loading}>Finalize Signup</Button>
       </Flex>
     </Flex>
   )
