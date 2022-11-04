@@ -18,8 +18,8 @@ export const deleteOnS3 = async(userId: string, fileType: string): Promise<boole
   return response.ok
 }
 
-export const getFromS3 = async(userId: string, fileType: string): Promise<string> => {
+export const getFromS3 = async(userId: string, fileType: string): Promise<Response> => {
   const response = await getAuth(`/awss3/${userId + fileType}`)
   console.log(response)
-  return response.url
+  return response
 }
