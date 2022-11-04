@@ -1,4 +1,4 @@
-import { Button, Modal, ModalBody, ModalCloseButton, HStack, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Image, Flex, Text, Box, Link, SimpleGrid, Skeleton, SkeletonText } from "@chakra-ui/react";
+import { Button, Modal, ModalBody, ModalCloseButton, HStack, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Image, Flex, Text, Box, Link, SimpleGrid, Skeleton, SkeletonText, VStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { API } from "../api";
 import { SSApplication, UpdateApplicationDto } from "../api/sSApplications";
@@ -17,16 +17,21 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
   const [student, setStudent] = useState<Student | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [cvUri, setCvUri] = useState<string | null>(null);
 
   async function getAppAndStudent() {
     setLoading(true);
     const sdnt = await API.students.getStudent(studentId);
     const app = await API.sSApplications.getApplicationForStudent(sdnt.id);
     const user = await API.users.getUser(sdnt.userId);
+    const uri = await API.s3bucket.getFromS3(user.id.toString(), ".pdf")
     setApplication(app ?? null);
     setStudent(sdnt);
     setUser(user);
     setLoading(false);
+    if(uri.ok) {
+      setCvUri(uri.url);
+    }
   }
   async function accept() {
     setLoading(true);
@@ -49,41 +54,10 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
     onClose();
     setLoading(false);
   }
-  const getCvUrl = async (userId: number) => {
-    try{
-      const Uri = await API.s3bucket.getFromS3(userId.toString(), ".pdf")
-      return <Link href={Uri}>Download CV</Link>;
-    }catch{
-      return null;
-    }
-  }
 
   useEffect(() => {
     getAppAndStudent();
   }, []);
-  
-  // if(!student || !user || !application || loading){
-  //   return (
-  //     <Modal isOpen={isOpen} onClose={onClose}>
-  //       <ModalOverlay />
-  //       <ModalContent>
-  //         <ModalHeader>
-  //         </ModalHeader>
-  //         <ModalCloseButton />
-  //         <ModalBody>
-  //           <Flex p="3rem" justifyContent="center" alignItems="center">
-  //             <Spinner size="lg" color="arkadDarkBlue"/>
-  //           </Flex> 
-  //         </ModalBody>
-  //         <ModalFooter>
-  //           <Button variant="primary" mr={3} onClick={onClose}>
-  //             Close
-  //           </Button>
-  //         </ModalFooter>
-  //       </ModalContent>
-  //     </Modal>
-  //   )
-  // }
 
   return (
   <Modal isOpen={isOpen} onClose={onClose}>
@@ -93,17 +67,17 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
         <HStack justifyContent="space-between" mr="2rem">
           <Box>
           <Image 
-            w="4.5rem"
-            h="4.5rem"
+            w="5.5rem"
+            h="5.5rem"
             rounded="full"
-            src={user?.profilePictureUrl ? user.profilePictureUrl : "/images/arkad_logo.png"} />
+            src={user ? `https://cvfiler.s3.eu-north-1.amazonaws.com/${user.id}.jpg` : "/images/arkad_logo.png"} />
           
             <Text><Skeleton isLoaded={!loading}>{user?.firstName ?? " "} {user?.lastName ?? " "}</Skeleton></Text>
           
           </Box>
-          {student?.linkedIn &&
-          <Button variant="secondary" p="1rem" as="a" href={student.linkedIn} target="_blank" rel="noreferrer">LinkedIn</Button>
-          }
+          {student?.linkedIn ?
+          <Button variant="secondary" p="1rem" as="a" href={student.linkedIn} target="_blank" rel="noreferrer">LinkedIn</Button> :
+          <Text> No LinkedIn</Text>}
         </HStack>
       </ModalHeader>
       <ModalCloseButton />
@@ -114,7 +88,13 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
           <StudentInfoItem loading={loading} label="Program" value={student?.programme ? (student?.programme && Programme[student.programme].replaceAll("_", " ")) : "No program"} />
           <StudentInfoItem loading={loading} label="Year" value={String(student?.year) ?? "No year"} />
           <StudentInfoItem loading={loading} label="Master" value={student?.masterTitle ?? "No master"} />
-          {user?.hasCv && <Text><>CV: {getCvUrl(user.id)}</></Text>}
+          {user && 
+          <Skeleton isLoaded={!loading}>
+            <VStack align="strech" spacing="0" my="0.2rem">
+              <Text fontWeight={700}>CV: </Text> 
+            {cvUri ? <Link color="ArkadLightBlue" href={cvUri}>Download CV</Link> : <Text>CV not uploaded</Text>}
+            </VStack>
+          </Skeleton>}
           <Box rounded="md" mt="1rem">
             <Skeleton isLoaded={!loading}>
               <Text fontWeight={700} fontSize="1.2rem">Message from student</Text>
