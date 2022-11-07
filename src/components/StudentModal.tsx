@@ -66,14 +66,14 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
       <ModalHeader>
         <HStack justifyContent="space-between" mr="2rem">
           <Box>
-          <Image 
-            w="5.5rem"
-            h="5.5rem"
-            rounded="full"
-            src={user ? `https://cvfiler.s3.eu-north-1.amazonaws.com/${user.id}.jpg` : "/images/arkad_logo.png"} />
-          
-            <Text><Skeleton isLoaded={!loading}>{user?.firstName ?? " "} {user?.lastName ?? " "}</Skeleton></Text>
-          
+            <Image 
+              w="5.5rem"
+              h="5.5rem"
+              rounded="full"
+              src={user ? `https://cvfiler.s3.eu-north-1.amazonaws.com/${user.id}.jpg?${new Date()}` : "/images/arkad_logo.png"} />
+            <Text>
+              <Skeleton isLoaded={!loading}>{user?.firstName ?? " "} {user?.lastName ?? " "}</Skeleton>
+            </Text>
           </Box>
           {student?.linkedIn ?
           <Button variant="secondary" p="1rem" as="a" href={student.linkedIn} target="_blank" rel="noreferrer">LinkedIn</Button> :
@@ -86,7 +86,7 @@ export default function StudentModal({isOpen, onClose, studentId}: StudentModalP
           <StudentInfoItem loading={loading} label="Email" value={user?.email ?? "no email"} />
           <StudentInfoItem loading={loading} label="Phone" value={user?.phoneNr ?? "No phone number"} />
           <StudentInfoItem loading={loading} label="Program" value={student?.programme ? (student?.programme && Programme[student.programme].replaceAll("_", " ")) : "No program"} />
-          <StudentInfoItem loading={loading} label="Year" value={String(student?.year) ?? "No year"} />
+          <StudentInfoItem loading={loading} label="Year" value={String(student?.year ?? "No year") } />
           <StudentInfoItem loading={loading} label="Master" value={student?.masterTitle ?? "No master"} />
           {user && 
           <Skeleton isLoaded={!loading}>
