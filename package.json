@@ -7,8 +7,6 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
-  }
-  "homepage": "https://main.ded7fg64x2ec2.amplifyapp.com"	
   },
   "dependencies": {
     "@chakra-ui/react": "^2.3.6",
@@ -29,3 +27,4 @@
     "vite": "^3.1.0",
     "vite-plugin-rewrite-all": "^1.0.0"
   }
+}
