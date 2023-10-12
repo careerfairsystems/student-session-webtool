@@ -107,7 +107,7 @@ export default function StudentModal({
 										? `https://cvfiler.s3.eu-north-1.amazonaws.com/${
 												user.id
 										  }.jpg?${new Date()}`
-										: "/images/arkad_logo.png"
+										: "public/images/arkad_logo.png"
 								}
 							/>
 							<Text>
