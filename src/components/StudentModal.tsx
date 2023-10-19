@@ -91,6 +91,7 @@ export default function StudentModal({
 		getAppAndStudent();
 	}, []);
 
+	console.log(user?.profilePictureUrl);
 	return (
 		<Modal isOpen={isOpen} onClose={onClose}>
 			<ModalOverlay />
@@ -103,10 +104,8 @@ export default function StudentModal({
 								h="5.5rem"
 								rounded="full"
 								src={
-									user
-										? `https://cvfiler.s3.eu-north-1.amazonaws.com/${
-												user.id
-										  }.jpg?${new Date()}`
+									user?.profilePictureUrl
+										? user?.profilePictureUrl
 										: "public/images/arkad_logo.png"
 								}
 							/>
