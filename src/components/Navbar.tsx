@@ -38,7 +38,7 @@ export default function Navbar() {
 				alignItems="center"
 			>
 				<Heading fontSize="xl">ARKAD</Heading>
-				<Flex alignItems="center">
+				<Flex>
 					<Button
 						onClick={guide}
 						variant="primary"
